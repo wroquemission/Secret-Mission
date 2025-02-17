@@ -17,7 +17,7 @@ div#background {
     transform: scale(3.5);
 }
 
-canvas#gameboard {
+canvas#background-board {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -25,4 +25,20 @@ canvas#gameboard {
     image-rendering: pixelated;
     border: solid 1.5px #343434;
     box-shadow: 0 0 0 2px #6b6b6b;
+}
+
+canvas#player-board {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(2);
+    image-rendering: pixelated;
+}
+
+canvas#dark-board {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(2);
+    image-rendering: pixelated;
 }

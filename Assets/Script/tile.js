@@ -1,21 +1,14 @@
-const grassPath = './Assets/Images/grass.png';
-
 class Tile {
     static TILESIZE = 32;
 
-    constructor(canvas, context, object) {
+    constructor(canvas, context, object, images) {
         this.canvas = canvas;
         this.context = context;
         this.object = object;
+        this.image = images['grass'];
     }
 
     render(x, y) {
-        const image = new Image();
-
-        image.onload = () => {
-            this.context.drawImage(image, x, y);
-        };
-
-        image.src = grassPath;
+        this.context.drawImage(this.image, x, y);
     }
 }

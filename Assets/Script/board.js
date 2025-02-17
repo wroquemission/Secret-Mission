@@ -12,14 +12,15 @@ class Board {
     static WIDTH = 7;
     static HEIGHT = 5;
 
-    constructor(canvas, context) {
+    constructor(canvas, context, player, images) {
         this.canvas = canvas;
         this.context = context;
 
         this.canvas.width = Board.WIDTH * Tile.TILESIZE;
         this.canvas.height = Board.HEIGHT * Tile.TILESIZE;
 
-        this.player = new Player(canvas, context);
+        this.player = player;
+        this.images = images;
 
         this.board = this.generateBoard(MAP);
     }
@@ -41,12 +42,12 @@ class Board {
                     this.player.row = i;
                     this.player.column = j;
                 } else if (column === 2) {
-                    object = new GameObject('stone', this.canvas, this.context);
+                    object = new GameObject('stone', this.canvas, this.context, this.images);
                 } else if (column === 3) {
-                    object = new GameObject('off-lamp', this.canvas, this.context);
+                    object = new GameObject('off-lamp', this.canvas, this.context, this.images);
                 }
 
-                const tile = new Tile(this.canvas, this.context, object);
+                const tile = new Tile(this.canvas, this.context, object, this.images);
 
                 boardRow.push(tile);
             }
@@ -83,4 +84,19 @@ class Board {
             }
         }
     }
-} 
+
+    clear() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+}
+
+class DarkBoard {
+    constructor(canvas, context) {
+        this.canvas = canvas;
+        this.context = context;
+        this.context.globalCompositeOperation = 'xor';
+    }
+
+    render(x, y, radius) {
+    }
+}
