@@ -11,6 +11,7 @@ const MAP = [
 class Board {
     static WIDTH = 7;
     static HEIGHT = 5;
+    static MOTIONSPEED = 4;
 
     constructor(canvas, context, player, images) {
         this.canvas = canvas;
@@ -23,6 +24,8 @@ class Board {
         this.images = images;
 
         this.board = this.generateBoard(MAP);
+
+        this.remainingMotion = [0, 0];
     }
 
     generateBoard(map) {
@@ -85,6 +88,60 @@ class Board {
         }
     }
 
+    move(direction) {
+        switch (direction) {
+            case 'up':
+                this.remainingMotion = [0, Tile.TILESIZE];
+                break;
+            case 'down':
+                this.remainingMotion = [0, -Tile.TILESIZE];
+                break;
+            case 'left':
+                this.remainingMotion = [Tile.TILESIZE, 0];
+                break;
+            case 'right':
+                this.remainingMotion = [-Tile.TILESIZE, 0];
+        }
+    }
+
+    canOccupy(row, column) {
+        if (row < 0 || row >= this.board.length) {
+            return false;
+        }
+
+        if (column < 0 || column >= this.board[0].length) {
+            return false;
+        }
+
+        const tile = this.board[row][column];
+
+        if (tile.object && tile.object.type === 'stone') {
+            return false;
+        }
+
+        return true;
+    }
+
+    doMotionFrame() {
+        if (this.remainingMotion[0] || this.remainingMotion[1]) {
+            this.context.globalCompositeOperation = 'copy';
+
+            const dx = this.remainingMotion[0] ? Math.sign(this.remainingMotion[0]) * Board.MOTIONSPEED : 0;
+            const dy = this.remainingMotion[1] ? Math.sign(this.remainingMotion[1]) * Board.MOTIONSPEED : 0;
+
+            this.context.drawImage(this.canvas, dx, dy);
+
+            this.remainingMotion[0] = this.remainingMotion[0] - dx;
+            this.remainingMotion[1] = this.remainingMotion[1] - dy;
+
+            this.context.globalCompositeOperation = 'source-over';
+
+            if (!(this.remainingMotion[0] || this.remainingMotion[1])) {
+                this.render();
+            }
+        }
+    }
+
     clear() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
@@ -94,9 +151,29 @@ class DarkBoard {
     constructor(canvas, context) {
         this.canvas = canvas;
         this.context = context;
+
+        this.canvas.width = Board.WIDTH * Tile.TILESIZE;
+        this.canvas.height = Board.HEIGHT * Tile.TILESIZE;
+
         this.context.globalCompositeOperation = 'xor';
+
+        this.points = [];
     }
 
-    render(x, y, radius) {
+    addPoint(x, y, radius) {
+        this.points.push([x, y, radius]);
+    }
+
+    render() {
+        for (const [x, y, radius] of this.points) {
+            this.context.beginPath();
+            this.context.arc(x, y, radius, 0, 2 * Math.PI, false);
+            this.context.fill();
+            this.context.closePath();
+        }
+
+        this.context.fillStyle = 'black';
+
+        this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
     }
 }

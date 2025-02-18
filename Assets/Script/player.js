@@ -6,6 +6,9 @@ class Player {
         this.canvas = canvas;
         this.context = context;
 
+        this.canvas.width = Board.WIDTH * Tile.TILESIZE;
+        this.canvas.height = Board.HEIGHT * Tile.TILESIZE;
+
         this.images = this.getImages(images);
 
         this.row = undefined;
