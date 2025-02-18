@@ -14,6 +14,7 @@ const imagePaths = {
     'off-lamp': './Assets/Images/off.png',
     'on-lamp': './Assets/Images/on.png',
     'grass':  './Assets/Images/grass.png',
+    'wall':  './Assets/Images/wall.png',
     'player-1': './Assets/Images/player-1.png',
     'player-2': './Assets/Images/player-2.png',
     'player-3': './Assets/Images/player-3.png',

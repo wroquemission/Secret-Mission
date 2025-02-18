@@ -23,6 +23,8 @@ class Board {
         this.player = player;
         this.images = images;
 
+        this.wallImage = images['wall'];
+
         this.board = this.generateBoard(MAP);
 
         this.remainingMotion = [0, 0];
@@ -68,14 +70,16 @@ class Board {
         const rowLength = Math.min(rowOffset + Board.HEIGHT, this.board.length) - rowOffset;
         const colLength = Math.min(colOffset + Board.WIDTH, this.board[0].length) - colOffset;
 
-        for (let i = 0; i < rowLength; i++) {
-            if (i + rowOffset < 0) continue;
-
-            for (let j = 0; j < colLength; j++) {
-                if (j + colOffset < 0) continue;
-
+        for (let i = 0; i <= rowLength; i++) {
+            for (let j = 0; j <= colLength; j++) {
                 const x = j * Tile.TILESIZE;
                 const y = i * Tile.TILESIZE;
+
+                if (i + rowOffset < 0 || j + colOffset < 0 ||
+                    i + rowOffset === this.board.length || j + colOffset === this.board[0].length) {
+                    this.context.drawImage(this.wallImage, x, y);
+                    continue;
+                }
 
                 const tile = this.board[i + rowOffset][j + colOffset];
 
