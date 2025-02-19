@@ -4,6 +4,9 @@ body, html {
     padding: 0;
     margin: 0;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 div#background {
@@ -15,13 +18,11 @@ div#background {
     left: 0;
     image-rendering: pixelated;
     transform: scale(3.5);
+    z-index: -1;
 }
 
 canvas#background-board {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    position: relative;
     width: 500px;
     image-rendering: pixelated;
     border: solid 1.5px #343434;
@@ -30,18 +31,12 @@ canvas#background-board {
 
 canvas#player-board {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     width: 500px;
     image-rendering: pixelated;
 }
 
 canvas#dark-board {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     width: 500px;
     image-rendering: pixelated;
 }
