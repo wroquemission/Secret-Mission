@@ -1,6 +1,8 @@
 class GameObject {
-    constructor(type, canvas, context, images) {
+    constructor(type, row, column, canvas, context, images) {
         this.type = type;
+        this.row = row;
+        this.column = column;
         this.canvas = canvas;
         this.context = context;
         this.images = images;

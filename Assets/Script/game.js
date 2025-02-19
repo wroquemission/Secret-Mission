@@ -15,12 +15,7 @@ class Game {
             this.board = new Board(backgroundCanvas, backgroundContext, this.player, images);
             this.board.render();
 
-            this.darkBoard = new DarkBoard(darkCanvas, darkContext);
-            this.darkBoard.addPoint(
-                darkCanvas.width / 2,
-                darkCanvas.height / 2,
-                48
-            );
+            this.darkBoard = new DarkBoard(darkCanvas, darkContext, this.player);
             this.darkBoard.render();
 
             this.frame = 0;
@@ -44,31 +39,37 @@ class Game {
             return;
         }
 
+        let row, column;
+
         switch (direction) {
             case 'up':
-                if (this.board.canOccupy(this.player.row - 1, this.player.column)) {
-                    this.player.row--;
-                    this.board.move(direction);
-                }
+                row = this.player.row - 1;
+                column = this.player.column;
                 break;
             case 'down':
-                if (this.board.canOccupy(this.player.row + 1, this.player.column)) {
-                    this.player.row++;
-                    this.board.move(direction);
-                }
+                row = this.player.row + 1;
+                column = this.player.column;
                 break;
             case 'left':
-                if (this.board.canOccupy(this.player.row, this.player.column - 1)) {
-                    this.player.column--;
-                    this.board.move(direction);
-                }
+                row = this.player.row;
+                column = this.player.column - 1;
                 break;
             case 'right':
-                if (this.board.canOccupy(this.player.row, this.player.column + 1)) {
-                    this.player.column++;
-                    this.board.move(direction);
-                }
+                row = this.player.row;
+                column = this.player.column + 1;
                 break;
+        }
+
+        if (this.board.canOccupy(row, column)) {
+            this.player.row = row;
+            this.player.column = column;
+
+            this.board.updateLamp(row, column, this.darkBoard);
+
+            this.board.move(direction, (() => {
+                this.board.render();
+                this.darkBoard.render();
+            }).bind(this));
         }
     }
 

@@ -2,8 +2,8 @@ const MAP = [
     [0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 2, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0],
-    [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 3, 0],
-    [0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0],
+    [0, 0, 0, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 ]
@@ -28,6 +28,7 @@ class Board {
         this.board = this.generateBoard(MAP);
 
         this.remainingMotion = [0, 0];
+        this.motionCallback = undefined;
     }
 
     generateBoard(map) {
@@ -47,9 +48,9 @@ class Board {
                     this.player.row = i;
                     this.player.column = j;
                 } else if (column === 2) {
-                    object = new GameObject('stone', this.canvas, this.context, this.images);
+                    object = new GameObject('stone', i, j, this.canvas, this.context, this.images);
                 } else if (column === 3) {
-                    object = new GameObject('off-lamp', this.canvas, this.context, this.images);
+                    object = new GameObject('off-lamp', i, j, this.canvas, this.context, this.images);
                 }
 
                 const tile = new Tile(this.canvas, this.context, object, this.images);
@@ -92,7 +93,7 @@ class Board {
         }
     }
 
-    move(direction) {
+    move(direction, callback) {
         switch (direction) {
             case 'up':
                 this.remainingMotion = [0, Tile.TILESIZE];
@@ -105,7 +106,12 @@ class Board {
                 break;
             case 'right':
                 this.remainingMotion = [-Tile.TILESIZE, 0];
+                break;
+            default:
+                return;
         }
+
+        this.motionCallback = callback;
     }
 
     canOccupy(row, column) {
@@ -126,7 +132,16 @@ class Board {
         return true;
     }
 
-    doMotionFrame() {
+    updateLamp(row, column, darkBoard) {
+        const tile = this.board[row][column];
+
+        if (tile.object && tile.object.type === 'off-lamp') {
+            tile.object.type = 'on-lamp';
+            darkBoard.addPoint(tile.object, 30);
+        }
+    }
+
+    doMotionFrame(darkBoard) {
         if (this.remainingMotion[0] || this.remainingMotion[1]) {
             this.context.globalCompositeOperation = 'copy';
 
@@ -141,7 +156,7 @@ class Board {
             this.context.globalCompositeOperation = 'source-over';
 
             if (!(this.remainingMotion[0] || this.remainingMotion[1])) {
-                this.render();
+                this.motionCallback();
             }
         }
     }
@@ -152,24 +167,38 @@ class Board {
 }
 
 class DarkBoard {
-    constructor(canvas, context) {
+    constructor(canvas, context, player) {
         this.canvas = canvas;
         this.context = context;
 
         this.canvas.width = Board.WIDTH * Tile.TILESIZE;
         this.canvas.height = Board.HEIGHT * Tile.TILESIZE;
 
-        this.context.globalCompositeOperation = 'xor';
+        this.player = player;
 
-        this.points = [];
+        this.points = [[player, 48]];
     }
 
-    addPoint(x, y, radius) {
-        this.points.push([x, y, radius]);
+    convertPoint(row, column) {
+        const x = (column - this.player.column) * Tile.TILESIZE + (Board.WIDTH * Tile.TILESIZE) / 2;
+        const y = (row - this.player.row) * Tile.TILESIZE + (Board.HEIGHT * Tile.TILESIZE) / 2;
+
+        return [x, y];
+    }
+
+    addPoint(object, radius) {
+        this.points.push([object, radius]);
     }
 
     render() {
-        for (const [x, y, radius] of this.points) {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.context.globalCompositeOperation = 'source-over';
+
+        for (const [object, radius] of this.points) {
+            const { row, column } = object;
+
+            const [ x, y ] = this.convertPoint(row, column);
+
             this.context.beginPath();
             this.context.arc(x, y, radius, 0, 2 * Math.PI, false);
             this.context.fill();
@@ -178,6 +207,7 @@ class DarkBoard {
 
         this.context.fillStyle = 'black';
 
+        this.context.globalCompositeOperation = 'xor';
         this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
     }
 }
