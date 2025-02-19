@@ -8,9 +8,25 @@
 </head>
 <body>
     <div id="background"></div>
-    <canvas id="background-board"></canvas>
-    <canvas id="player-board"></canvas>
-    <canvas id="dark-board"></canvas>
+
+    <div id="content">
+        <div id="instructions">
+            <p>
+            "Neither do men light a candle, and put it under a bushel..."
+            </p>
+            <p>
+            Use arrow keys or WASD to navigate.
+            </p>
+            <p>
+            Lanterns remaining: <span id="remaining-lanterns">0</span>
+            </p>
+        </div>
+
+        <canvas id="background-board"></canvas>
+        <canvas id="player-board"></canvas>
+        <canvas id="dark-board"></canvas>
+    </div>
+    
     <script src="./Assets/Script/image.js"></script>
     <script src="./Assets/Script/tile.js"></script>
     <script src="./Assets/Script/object.js"></script>

@@ -1,12 +1,43 @@
+@font-face {
+    font-family: 'Pixelify Sans';
+    src: url('../Fonts/PixelifySans-Regular.ttf');
+}
+
 body, html {
     width: 100%;
     height: 100%;
     padding: 0;
     margin: 0;
     overflow: hidden;
+}
+
+div#content {
+    height: 100%;
+    width: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    flex-direction: column;
+    padding-top: 30px;
+}
+
+div#instructions {
+    margin-top: 380px;
+    width: 480px;
+    color: white;
+    font-family: 'Pixelify Sans', serif;
+    border: solid 2px #292929;
+    box-shadow: 0 0 0 2px #6b6b6b;
+    background: #2b2929;
+    padding: 10px;
+}
+
+div#instructions p {
+    margin: 8px;
+    text-align: center;
+}
+
+span#remaining-lanterns {
+    color: rgb(255, 249, 127);
 }
 
 div#background {
@@ -22,7 +53,7 @@ div#background {
 }
 
 canvas#background-board {
-    position: relative;
+    position: absolute;
     width: 500px;
     image-rendering: pixelated;
     border: solid 1.5px #343434;
@@ -39,6 +70,7 @@ canvas#dark-board {
     position: absolute;
     width: 500px;
     image-rendering: pixelated;
+    transform: scaleY(1.001) translateY(1px);
 }
 
 .hide {
