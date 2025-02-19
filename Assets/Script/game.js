@@ -12,7 +12,7 @@ class Game {
         loadImages().then(images => {
             this.player = new Player(playerCanvas, playerContext, images);
 
-            this.board = new Board(backgroundCanvas, backgroundContext, this.player, images);
+            this.board = new Board(backgroundCanvas, backgroundContext, this.player, images, this.win.bind(this));
             this.board.render();
 
             this.darkBoard = new DarkBoard(darkCanvas, darkContext, this.player);
@@ -90,6 +90,10 @@ class Game {
                 this.movePlayer(directions[e.key]);
             }
         }, false);
+    }
+
+    win() {
+        document.write('you won!');
     }
 }
 

@@ -13,7 +13,7 @@ class Board {
     static HEIGHT = 5;
     static MOTIONSPEED = 4;
 
-    constructor(canvas, context, player, images) {
+    constructor(canvas, context, player, images, winCallback) {
         this.canvas = canvas;
         this.context = context;
 
@@ -23,8 +23,11 @@ class Board {
         this.player = player;
         this.images = images;
 
+        this.winCallback = winCallback;
+
         this.wallImage = images['wall'];
 
+        this.remainingLanterns = 0;
         this.board = this.generateBoard(MAP);
 
         this.remainingMotion = [0, 0];
@@ -51,6 +54,8 @@ class Board {
                     object = new GameObject('stone', i, j, this.canvas, this.context, this.images);
                 } else if (column === 3) {
                     object = new GameObject('off-lamp', i, j, this.canvas, this.context, this.images);
+
+                    this.remainingLanterns++;
                 }
 
                 const tile = new Tile(this.canvas, this.context, object, this.images);
@@ -138,6 +143,12 @@ class Board {
         if (tile.object && tile.object.type === 'off-lamp') {
             tile.object.type = 'on-lamp';
             darkBoard.addPoint(tile.object, 30);
+
+            this.remainingLanterns--;
+
+            if (this.remainingLanterns === 0) {
+                this.winCallback();
+            }
         }
     }
 
