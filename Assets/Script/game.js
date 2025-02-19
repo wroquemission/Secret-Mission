@@ -18,6 +18,8 @@ class Game {
             this.darkBoard = new DarkBoard(darkCanvas, darkContext, this.player);
             this.darkBoard.render();
 
+            this.hasWon = false;
+
             this.frame = 0;
             this.doFrame();
 
@@ -35,6 +37,10 @@ class Game {
     }
 
     movePlayer(direction) {
+        if (this.hasWon) {
+            return;
+        }
+
         if (this.board.remainingMotion[0] || this.board.remainingMotion[1]) {
             return;
         }
@@ -93,7 +99,17 @@ class Game {
     }
 
     win() {
-        document.write('you won!');
+        const centerRow = Math.floor(this.board.board.length / 2);
+        const centerCol = Math.floor(this.board.board[0].length / 2);
+
+        this.player.row = centerRow;
+        this.player.column = centerCol;
+
+        this.board.fullRender();
+        this.darkBoard.hide();
+        this.player.hide();
+
+        this.hasWon = true;
     }
 }
 

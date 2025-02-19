@@ -44,4 +44,8 @@ class Player {
             );
         }
     }
+
+    hide() {
+        this.canvas.classList.add('hide');
+    }
 }

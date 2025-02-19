@@ -21,7 +21,8 @@ canvas#background-board {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(2);
+    transform: translate(-50%, -50%);
+    width: 500px;
     image-rendering: pixelated;
     border: solid 1.5px #343434;
     box-shadow: 0 0 0 2px #6b6b6b;
@@ -31,7 +32,8 @@ canvas#player-board {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(2);
+    transform: translate(-50%, -50%);
+    width: 500px;
     image-rendering: pixelated;
 }
 
@@ -39,6 +41,11 @@ canvas#dark-board {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(2);
+    transform: translate(-50%, -50%);
+    width: 500px;
     image-rendering: pixelated;
+}
+
+.hide {
+    display: none;
 }

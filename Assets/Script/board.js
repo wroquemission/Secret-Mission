@@ -1,9 +1,9 @@
 const MAP = [
     [0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 2, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0],
-    [0, 0, 0, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 ]
@@ -175,6 +175,16 @@ class Board {
     clear() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
+
+    fullRender() {
+        Board.WIDTH = MAP[0].length;
+        Board.HEIGHT = MAP.length;
+
+        this.canvas.width = Board.WIDTH * Tile.TILESIZE;
+        this.canvas.height = Board.HEIGHT * Tile.TILESIZE;
+
+        this.render();
+    }
 }
 
 class DarkBoard {
@@ -220,5 +230,9 @@ class DarkBoard {
 
         this.context.globalCompositeOperation = 'xor';
         this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+
+    hide() {
+        this.canvas.classList.add('hide');
     }
 }
