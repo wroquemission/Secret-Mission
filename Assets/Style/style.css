@@ -19,9 +19,13 @@ div#content {
     flex-direction: column;
     padding-top: 30px;
     padding-bottom: 80px;
-    overflow-y: auto;
+    overflow-y: none;
     box-sizing: border-box;
     scrollbar-width: none;
+}
+
+.scrollable {
+    overflow-y: auto;
 }
 
 div#content::-webkit-scrollbar {
@@ -111,6 +115,30 @@ button#restart {
     cursor: pointer;
 }
 
+div#size-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    width: 80%;
+    height: 80%;
+    color: white;
+    font-family: 'Pixelify Sans', serif;
+    border: solid 2px #292929;
+    box-shadow: 0 0 0 2px #6b6b6b;
+    background: #2b2929;
+    box-sizing: border-box;
+}
+
+div#size-message p {
+    margin: 5px;
+}
+
 .hide {
-    display: none;
+    display: none !important;
 }

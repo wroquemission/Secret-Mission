@@ -7,6 +7,10 @@ const darkContext = darkCanvas.getContext('2d');
 const instructionsContainer = document.querySelector('#instructions');
 const letterContainer = document.querySelector('#letter');
 const restartButton = document.querySelector('#restart');
+const sizeMessage = document.querySelector('#size-message');
+const sizeContainer = document.querySelector('#window-size');
+const contentContainer = document.querySelector('#content');
+
 
 class Game {
     constructor() { }
@@ -118,6 +122,8 @@ class Game {
         this.darkBoard.hide();
         this.player.hide();
 
+        contentContainer.classList.add('scrollable');
+
         instructionsContainer.classList.add('hide');
         letterContainer.classList.remove('hide');
         restartButton.classList.remove('hide');
@@ -135,3 +141,24 @@ restartButton.addEventListener('click', () => {
     window.localStorage.removeItem('has-won');
     window.location.reload();
 }, false);
+
+const minWidth = 550;
+const minHeight = 550;
+
+function checkWindowSize() {
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+
+    if (windowWidth < minWidth || windowHeight < minHeight) {
+        contentContainer.classList.add('hide');
+        sizeMessage.classList.remove('hide');
+
+        sizeContainer.innerText = `${windowWidth} x ${windowHeight}`;
+    } else {
+        contentContainer.classList.remove('hide');
+        sizeMessage.classList.add('hide');
+    }
+}
+
+window.addEventListener('resize', checkWindowSize, false);
+checkWindowSize();
