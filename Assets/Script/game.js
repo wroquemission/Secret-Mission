@@ -6,6 +6,7 @@ const darkCanvas = document.querySelector('#dark-board');
 const darkContext = darkCanvas.getContext('2d');
 const instructionsContainer = document.querySelector('#instructions');
 const letterContainer = document.querySelector('#letter');
+const restartButton = document.querySelector('#restart');
 
 class Game {
     constructor() { }
@@ -27,7 +28,9 @@ class Game {
 
             this.bindKeys();
 
-            this.win();
+            if (window.localStorage.getItem('has-won')) {
+                this.win();
+            }
         });
     }
 
@@ -37,7 +40,7 @@ class Game {
 
         this.frame++;
 
-        window.requestAnimationFrame(this.doFrame.bind(this));
+        window.setTimeout(this.doFrame.bind(this), 15);
     }
 
     movePlayer(direction) {
@@ -76,10 +79,12 @@ class Game {
 
             this.board.updateLamp(row, column, this.darkBoard);
 
-            this.board.move(direction, (() => {
-                this.board.render();
-                this.darkBoard.render();
-            }).bind(this));
+            if (!this.hasWon) {
+                this.board.move(direction, (() => {
+                    this.board.render();
+                    this.darkBoard.render();
+                }).bind(this));
+            }
         }
     }
 
@@ -115,10 +120,18 @@ class Game {
 
         instructionsContainer.classList.add('hide');
         letterContainer.classList.remove('hide');
+        restartButton.classList.remove('hide');
 
         this.hasWon = true;
+
+        window.localStorage.setItem('has-won', true);
     }
 }
 
 const game = new Game();
 game.start();
+
+restartButton.addEventListener('click', () => {
+    window.localStorage.removeItem('has-won');
+    window.location.reload();
+}, false);
