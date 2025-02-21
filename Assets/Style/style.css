@@ -18,6 +18,14 @@ div#content {
     align-items: center;
     flex-direction: column;
     padding-top: 30px;
+    padding-bottom: 80px;
+    overflow-y: auto;
+    box-sizing: border-box;
+    scrollbar-width: none;
+}
+
+div#content::-webkit-scrollbar {
+    display: none;
 }
 
 div#instructions {
@@ -71,6 +79,23 @@ canvas#dark-board {
     width: 500px;
     image-rendering: pixelated;
     transform: scaleY(1.001) translateY(1px);
+}
+
+canvas.full-render {
+    position: relative !important;
+}
+
+div#letter {
+    margin-top: 20px;
+    width: 500px;
+    color: white;
+    font-family: 'Pixelify Sans', serif;
+    border: solid 2px #292929;
+    box-shadow: 0 0 0 2px #6b6b6b;
+    background: #2b2929;
+    padding: 5px 20px;
+    box-sizing: border-box;
+    line-height: 1.4em;
 }
 
 .hide {

@@ -12,8 +12,8 @@ const MAP = [
     [0, 2, 2, 2, 1, 0, 2, 2, 0, 2, 0, 0, 2, 0, 2, 2, 2, 2, 0, 0, 2, 2, 2, 0, 0],
     [0, 2, 0, 2, 2, 0, 0, 0, 0, 2, 0, 3, 2, 0, 2, 0, 0, 2, 0, 0, 2, 0, 0, 0, 0],
     [0, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 2, 0, 0, 2, 0, 2, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2, 2],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3],
+    [0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 3],
 ]
 
 const lanternsCounter = document.querySelector('#remaining-lanterns');
@@ -195,6 +195,8 @@ class Board {
 
         this.canvas.width = Board.WIDTH * Tile.TILESIZE;
         this.canvas.height = Board.HEIGHT * Tile.TILESIZE;
+
+        this.canvas.classList.add('full-render');
 
         this.render();
     }

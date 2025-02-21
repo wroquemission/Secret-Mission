@@ -4,6 +4,8 @@ const playerCanvas = document.querySelector('#player-board');
 const playerContext = playerCanvas.getContext('2d');
 const darkCanvas = document.querySelector('#dark-board');
 const darkContext = darkCanvas.getContext('2d');
+const instructionsContainer = document.querySelector('#instructions');
+const letterContainer = document.querySelector('#letter');
 
 class Game {
     constructor() { }
@@ -24,6 +26,8 @@ class Game {
             this.doFrame();
 
             this.bindKeys();
+
+            this.win();
         });
     }
 
@@ -108,6 +112,9 @@ class Game {
         this.board.fullRender();
         this.darkBoard.hide();
         this.player.hide();
+
+        instructionsContainer.classList.add('hide');
+        letterContainer.classList.remove('hide');
 
         this.hasWon = true;
     }
